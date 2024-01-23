@@ -55,7 +55,7 @@ pub fn get_supported_validation_layers(entry: &ash::Entry) -> Vec<&'static CStr>
     .map(|(props, name)| LayerProperties {
       name,
       _description: utility::i8_array_to_string(&props.description)
-        .unwrap_or(String::from("<Coudn't be decoded>")),
+        .unwrap_or(String::from("<Couldn't be decoded>")),
       _implementation_version: utility::parse_vulkan_api_version(props.implementation_version),
     })
     .collect();
@@ -74,14 +74,14 @@ pub fn get_supported_validation_layers(entry: &ash::Entry) -> Vec<&'static CStr>
       .map(|cname| cname.to_str().unwrap())
       .collect();
     log::error!(
-      "Some requested validation layer are not available: {:?}",
+      "Some requested validation layers are not available: {:?}",
       unavailable_str
     );
 
     VALIDATION_LAYERS
       .clone()
       .into_iter()
-      .filter(|v| unavailable.contains(&v))
+      .filter(|v| !unavailable.contains(&v))
       .collect()
   } else {
     VALIDATION_LAYERS.to_vec()

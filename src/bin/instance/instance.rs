@@ -1,10 +1,16 @@
 use ash::vk;
-use std::{ffi::CString, ptr};
+use std::{
+  ffi::CString,
+  ptr::{self, addr_of},
+};
 
 #[cfg(feature = "vl")]
 use std::os::raw::{c_char, c_void};
 
-use crate::{utility, APPLICATION_NAME, APPLICATION_VERSION, TARGET_API_VERSION};
+use crate::{
+  utility, ADDITIONAL_VALIDATION_FEATURES, APPLICATION_NAME, APPLICATION_VERSION,
+  TARGET_API_VERSION,
+};
 
 // Checks if all required extensions exist and are supported by the host system
 // If found returns a list of required but not available extensions as an error
@@ -102,7 +108,7 @@ pub fn create_instance(
     .map(|v| v.as_ptr() as *const i8)
     .collect();
 
-  // this is the create info without validation layers, they are added if the feature is enabled
+  // this is the create info without validation layers, they are added if the "vl" feature is enabled
   #[allow(unused_mut)]
   let mut create_info = vk::InstanceCreateInfo {
     s_type: vk::StructureType::INSTANCE_CREATE_INFO,
@@ -115,10 +121,23 @@ pub fn create_instance(
     flags: vk::InstanceCreateFlags::empty(),
   };
 
+  // Additional validation features can be enabled by adding this structure in the pNext chain
+  #[cfg(feature = "vl")]
+  let additional_features = vk::ValidationFeaturesEXT {
+    s_type: vk::StructureType::VALIDATION_FEATURES_EXT,
+    p_next: debug_create_info as *const vk::DebugUtilsMessengerCreateInfoEXT as *const c_void,
+    enabled_validation_feature_count: ADDITIONAL_VALIDATION_FEATURES.len() as u32,
+    p_enabled_validation_features: ADDITIONAL_VALIDATION_FEATURES.as_ptr(),
+    disabled_validation_feature_count: 0,
+    p_disabled_validation_features: ptr::null(),
+  };
+  // should be valid until the end of instance creation
+  #[cfg(feature = "vl")]
+  let additional_features_ptr = addr_of!(additional_features) as *const c_void;
+
   #[cfg(feature = "vl")]
   {
-    create_info.p_next =
-      debug_create_info as *const vk::DebugUtilsMessengerCreateInfoEXT as *const c_void;
+    create_info.p_next = additional_features_ptr;
     create_info.pp_enabled_layer_names = vl_pointers.as_ptr();
     create_info.enabled_layer_count = vl_pointers.len() as u32;
   }

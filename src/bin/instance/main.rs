@@ -21,6 +21,10 @@ macro_rules! cstr {
 // array of validation layers that should be loaded
 // validation layers names should be valid cstrings (not contain null bytes nor invalid characters)
 pub const VALIDATION_LAYERS: [&'static CStr; 1] = [cstr!("VK_LAYER_KHRONOS_validation")];
+pub const ADDITIONAL_VALIDATION_FEATURES: [vk::ValidationFeatureEnableEXT; 2] = [
+  vk::ValidationFeatureEnableEXT::BEST_PRACTICES,
+  vk::ValidationFeatureEnableEXT::SYNCHRONIZATION_VALIDATION,
+];
 
 // Vulkan API version required to run the program
 // In your case you may request a optimal version of the API in order to use specific features
