@@ -6,7 +6,7 @@ uses [Ash](https://github.com/ash-rs/ash) as its wrapper.
 These examples try to be suited for use in a normal application by being well structured and
 following best practices.
 
-As I have not much experience, I would greatly appreciate if you decide to suggest some new examples or improve old ones.
+Feel free to suggest new examples or improvements for old ones.
 
 ## Table of Contents
 
