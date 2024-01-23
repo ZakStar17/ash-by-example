@@ -1,6 +1,4 @@
-#[cfg(feature = "vl")]
-use validation_layers::{get_validation_layers, DebugUtils};
-
+mod entry;
 mod instance;
 mod utility;
 
@@ -8,52 +6,40 @@ mod utility;
 #[cfg(feature = "vl")]
 mod validation_layers;
 
-#[cfg(all(feature = "link", feature = "load"))]
-compile_error!(
-  "\
-    Features \"link\" and \"load\" \
-    were included at the same time. \
-    Choose between \"load\" to load the Vulkan library \
-    at runtime or \"link\" to link it while building the binary."
-);
+use ash::vk;
+use std::ffi::CStr;
+#[cfg(feature = "vl")]
+use validation_layers::DebugUtils;
 
-#[allow(unreachable_code)]
-unsafe fn get_entry() -> ash::Entry {
-  #[cfg(feature = "link")]
-  return ash::Entry::linked();
-
-  #[cfg(feature = "load")]
-  return match ash::Entry::load() {
-    Ok(entry) => entry,
-    Err(err) => match err {
-      ash::LoadingError::MissingEntryPoint(missing_entry_error) => {
-        panic!(
-          "Missing entry point when loading Vulkan library: {}",
-          missing_entry_error
-        )
-      }
-      ash::LoadingError::LibraryLoadFailure(load_error) => {
-        panic!("Failed to load Vulkan Library: {:?}", load_error)
-      }
-    },
-  };
-
-  // panic will only happen if neither of the features are enabled
-  panic!(
-    "No compile feature was included for accessing the Vulkan library.\n\
-    Choose between \"load\" to load the Vulkan library \
-    at runtime or \"link\" to link it while building the binary."
-  );
+// simple macro to transmute literals to static CStr
+macro_rules! cstr {
+  ( $s:literal ) => {{
+    unsafe { std::mem::transmute::<_, &CStr>(concat!($s, "\0")) }
+  }};
 }
+
+// array of validation layers that should be loaded
+// validation layers names should be valid cstrings (not contain null bytes nor invalid characters)
+pub const VALIDATION_LAYERS: [&'static CStr; 1] = [cstr!("VK_LAYER_KHRONOS_validation")];
+
+// Vulkan API version required to run the program
+// In your case you may request a optimal version of the API in order to use specific features
+// but fallback to an older version if the target is not supported by the driver or any physical
+// device
+pub const TARGET_API_VERSION: u32 = vk::API_VERSION_1_3;
+
+// somewhat arbitrary
+pub const APPLICATION_NAME: &'static CStr = cstr!("Vulkan Instance creation");
+pub const APPLICATION_VERSION: u32 = vk::make_api_version(0, 1, 0, 0);
 
 fn main() {
   env_logger::init();
 
-  let entry: ash::Entry = unsafe { get_entry() };
+  let entry: ash::Entry = unsafe { entry::get_entry() };
 
   #[cfg(feature = "vl")]
   let (instance, mut debug_utils) = {
-    let validation_layers = get_validation_layers(&entry);
+    let validation_layers = validation_layers::get_supported_validation_layers(&entry);
     // valid for as long as "validation_layers"
     let vl_pointers: Vec<*const std::ffi::c_char> =
       validation_layers.iter().map(|name| name.as_ptr()).collect();

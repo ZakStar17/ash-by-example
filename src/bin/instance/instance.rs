@@ -4,53 +4,35 @@ use std::{ffi::CString, ptr};
 #[cfg(feature = "vl")]
 use std::os::raw::{c_char, c_void};
 
-use crate::utility;
-
-const TARGET_API_VERSION: u32 = vk::API_VERSION_1_3;
+use crate::{utility, APPLICATION_NAME, APPLICATION_VERSION, TARGET_API_VERSION};
 
 // Checks if all required extensions exist and are supported by the host system
 // If found returns a list of required but not available extensions as an error
-fn test_instance_extension_support(
+fn test_instance_extension_support<'a>(
   entry: &ash::Entry,
-  extensions: &Vec<*const i8>,
-) -> Result<(), Vec<String>> {
-  let required: Vec<&str> = extensions
-    .iter()
-    .map(|x| {
-      let rust_id = unsafe { std::ffi::CStr::from_ptr(*x) };
-      rust_id.to_str().unwrap()
-    })
-    .collect();
-  log::info!("Required instance extensions by the application: {:?}", required);
-
+  extensions: &'a Vec<&'a str>,
+) -> Result<(), Vec<&'a &'a str>> {
+  let required = extensions;
   let mut available: Vec<String> = entry
     .enumerate_instance_extension_properties(None)
-    .unwrap()
+    .unwrap() // should only fail if out of memory
     .iter()
-    .filter_map(|x| match utility::i8_array_to_string(&x.extension_name) {
-      Ok(s) => Some(s),
-      Err(_) => {
-        log::warn!(
-          "There exists an available extension with an invalid name that could not be decoded"
-        );
-        None
-      }
-    })
+    .filter_map(
+      |props| match utility::i8_array_to_string(&props.extension_name) {
+        Ok(s) => Some(s),
+        Err(_) => {
+          log::warn!(
+            "There exists an available extension with an invalid name that couldn't be decoded"
+          );
+          None
+        }
+      },
+    )
     .collect();
-  available.sort();
 
   log::debug!("Available instance extensions: {:?}", available);
 
-  let mut unavailable = Vec::new();
-  for name in required.into_iter() {
-    if available
-      .binary_search_by(|av| av.as_str().cmp(name))
-      .is_err()
-    {
-      unavailable.push(name.to_string());
-    }
-  }
-
+  let unavailable = utility::not_in_string_slice(available.as_mut_slice(), &mut required.iter());
   if unavailable.is_empty() {
     Ok(())
   } else {
@@ -58,6 +40,7 @@ fn test_instance_extension_support(
   }
 }
 
+// the function expects any pointers to be valid
 pub fn create_instance(
   entry: &ash::Entry,
   #[cfg(feature = "vl")] vl_pointers: &Vec<*const c_char>,
@@ -74,22 +57,19 @@ pub fn create_instance(
   };
 
   log::info!(
-    "Vulkan library max supported version: {}.{}.{}",
-    vk::api_version_major(max_supported_version),
-    vk::api_version_minor(max_supported_version),
-    vk::api_version_patch(max_supported_version)
+    "Vulkan library max supported version: {}",
+    utility::parse_vulkan_api_version(max_supported_version)
   );
 
   if max_supported_version < TARGET_API_VERSION {
     panic!("Vulkan implementation API maximum supported version is less than the one targeted by the application.");
   }
 
-  let app_name = CString::new("Ash By Example").unwrap();
   let app_info = vk::ApplicationInfo {
     s_type: vk::StructureType::APPLICATION_INFO,
     api_version: TARGET_API_VERSION,
-    p_application_name: app_name.as_ptr(),
-    application_version: vk::make_api_version(0, 1, 0, 0),
+    p_application_name: APPLICATION_NAME.as_ptr(),
+    application_version: APPLICATION_VERSION,
     p_engine_name: ptr::null(),
     engine_version: vk::make_api_version(0, 1, 0, 0),
     p_next: ptr::null(),
@@ -98,7 +78,13 @@ pub fn create_instance(
   #[allow(unused_mut)]
   let mut required_extensions = Vec::with_capacity(1);
   #[cfg(feature = "vl")]
-  required_extensions.push(ash::extensions::ext::DebugUtils::name().as_ptr());
+  required_extensions.push(ash::extensions::ext::DebugUtils::name().to_str().unwrap());
+
+  log::info!(
+    "Required instance extensions by the application: {:?}",
+    required_extensions
+  );
+
   test_instance_extension_support(entry, &required_extensions).unwrap_or_else(|unavailable| {
     panic!(
       "Some unavailable instance extensions are strictly required: {:?}",
@@ -106,6 +92,17 @@ pub fn create_instance(
     )
   });
 
+  // required to be alive until the end of instance creation
+  let required_extensions_c: Vec<CString> = required_extensions
+    .into_iter()
+    .map(|v| CString::new(v).unwrap())
+    .collect();
+  let required_extensions_ptr: Vec<*const i8> = required_extensions_c
+    .iter()
+    .map(|v| v.as_ptr() as *const i8)
+    .collect();
+
+  // this is the create info without validation layers, they are added if the feature is enabled
   #[allow(unused_mut)]
   let mut create_info = vk::InstanceCreateInfo {
     s_type: vk::StructureType::INSTANCE_CREATE_INFO,
@@ -113,8 +110,8 @@ pub fn create_instance(
     p_application_info: &app_info,
     pp_enabled_layer_names: ptr::null(),
     enabled_layer_count: 0,
-    pp_enabled_extension_names: required_extensions.as_ptr(),
-    enabled_extension_count: required_extensions.len() as u32,
+    pp_enabled_extension_names: required_extensions_ptr.as_ptr(),
+    enabled_extension_count: required_extensions_ptr.len() as u32,
     flags: vk::InstanceCreateFlags::empty(),
   };
 
