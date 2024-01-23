@@ -10,6 +10,9 @@ As I have not much experience, I would greatly appreciate if you decide to sugge
 
 ## Table of Contents
 
+- [Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/instance):
+  Covers Instance creation and enabling validation layers.
+
 ## Running
 
 You can run the examples by issuing the command `cargo run --bin <name_of_the_example>`.

@@ -8,8 +8,6 @@ mod validation_layers;
 
 use ash::vk;
 use std::ffi::CStr;
-#[cfg(feature = "vl")]
-use validation_layers::DebugUtils;
 
 // simple macro to transmute literals to static CStr
 macro_rules! cstr {
@@ -20,7 +18,9 @@ macro_rules! cstr {
 
 // array of validation layers that should be loaded
 // validation layers names should be valid cstrings (not contain null bytes nor invalid characters)
+#[cfg(feature = "vl")]
 pub const VALIDATION_LAYERS: [&'static CStr; 1] = [cstr!("VK_LAYER_KHRONOS_validation")];
+#[cfg(feature = "vl")]
 pub const ADDITIONAL_VALIDATION_FEATURES: [vk::ValidationFeatureEnableEXT; 2] = [
   vk::ValidationFeatureEnableEXT::BEST_PRACTICES,
   vk::ValidationFeatureEnableEXT::SYNCHRONIZATION_VALIDATION,
@@ -42,19 +42,7 @@ fn main() {
   let entry: ash::Entry = unsafe { entry::get_entry() };
 
   #[cfg(feature = "vl")]
-  let (instance, mut debug_utils) = {
-    let validation_layers = validation_layers::get_supported_validation_layers(&entry);
-    // valid for as long as "validation_layers"
-    let vl_pointers: Vec<*const std::ffi::c_char> =
-      validation_layers.iter().map(|name| name.as_ptr()).collect();
-
-    let debug_create_info = DebugUtils::get_debug_messenger_create_info();
-    let instance = instance::create_instance(&entry, &vl_pointers, &debug_create_info);
-    let debug_utils = DebugUtils::setup(&entry, &instance, debug_create_info);
-
-    (instance, debug_utils)
-  };
-
+  let (instance, mut debug_utils) = instance::create_instance(&entry);
   #[cfg(not(feature = "vl"))]
   let instance = instance::create_instance(&entry);
 
