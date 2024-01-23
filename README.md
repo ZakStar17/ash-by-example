@@ -30,4 +30,4 @@ Different levels of visibility can be changed with the environment variable `RUS
 for example you want to see all error, warning, info and debug messages, just run the executable preceding
 it with `RUST_LOG=debug`. You can find more information at [https://docs.rs/env_logger/0.11.0/env_logger/](https://docs.rs/env_logger/0.11.0/env_logger/).
 
-`RUST_LOG=debug cargo run --bin instance_creation`
+`RUST_LOG=debug cargo run --bin instance`
