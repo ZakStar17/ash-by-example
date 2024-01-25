@@ -1,6 +1,6 @@
 use ash::vk;
 
-// general functions used in other modules
+// this module contains general functions used in other modules
 
 pub fn parse_vulkan_api_version(v: u32) -> String {
   format!(
