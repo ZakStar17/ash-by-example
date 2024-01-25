@@ -12,6 +12,8 @@ Feel free to suggest new examples or improvements for old ones.
 
 - [Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/instance):
   Covers Instance creation and enabling validation layers.
+- [Device creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/device):
+  Covers physical device selection, logical device creation and queue retrieval.
 
 ## Running
 
