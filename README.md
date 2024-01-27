@@ -10,10 +10,11 @@ Feel free to suggest new examples or improvements for old ones.
 
 ## Table of Contents
 
-- [Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/instance):
-  Covers Instance creation and enabling validation layers.
-- [Device creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/device):
-  Covers physical device selection, logical device creation and queue retrieval.
+- [Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/instance): Covers Instance creation and enabling validation layers.
+- [Device creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/device): Covers physical device selection, logical device creation and queue retrieval.
+- [Compute image clear](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/compute_image_clear): Clears an image, copies it from device memory to host accessible (cpu) memory and saves it to a file. This example covers command buffer and image creation, image layout transitions with image barriers, queue family ownership transfer and queue submission.
+
+This list is mostly ordered in terms of difficulty.
 
 ## Running
 
