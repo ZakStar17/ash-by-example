@@ -1,14 +1,12 @@
-# Device creation
+# Instance creation
 
-This example is a direct continuation of
-[Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/src/bin/instance).
-It covers physical device selection, logical device creation and queue retrieval.
+This example covers creating an instance and enabling validation layers. 
 
-The added files are `logical_device.rs` and `physical_device.rs` as well as their code in `main.rs`.
+The module for the validation layers is only compiled when the `vl` feature is enabled.
 
 You can run this example with:
 
-`RUST_LOG=debug cargo run --bin device`
+`RUST_LOG=debug cargo run`
 
 ## Cargo features
 
