@@ -22,7 +22,7 @@ Running the examples requires the Rust toolchain as well as the [Vulkan SDK](htt
 
 To run a example with all validations enabled, navigate to the respective folder and run `RUST_LOG=debug cargo run <name_of_the_example>`. More information can be found in the respective README.
 
-The examples use cargo features that enable specific functionality. These include `vl` to enable validation layers and `link` to link the Vulkan loader at complie time instead of loading it at runtime. In any case, using the default features should be enough.
+The examples use cargo features that enable specific functionality. These include `vl` to enable validation layers and `link` to link the Vulkan loader at compile time instead of loading it at runtime. In any case, using the default features should be enough.
 
 ## Checking the logs
 
