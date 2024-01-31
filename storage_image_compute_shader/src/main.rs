@@ -57,6 +57,7 @@ pub const IMAGE_HEIGHT: u32 = 4000;
 
 // what is used in the shader
 pub const IMAGE_FORMAT: vk::Format = vk::Format::R8G8B8A8_UNORM;
+pub const IMAGE_TYPE: ::image::ColorType = ::image::ColorType::Rgba8; // should be equivalent
 
 // Size of each local group in the shader invocation
 // Normally these would be calculated from image dimensions and clapped to respect device limits

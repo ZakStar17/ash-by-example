@@ -13,6 +13,7 @@ Feel free to suggest new examples or improvements for old ones.
 - [Instance creation](https://github.com/ZakStar17/ash-by-example/tree/main/instance): Covers Instance creation and enabling validation layers.
 - [Device creation](https://github.com/ZakStar17/ash-by-example/tree/main/device): Covers physical device selection, logical device creation and queue retrieval.
 - [Compute image clear](https://github.com/ZakStar17/ash-by-example/tree/main/compute_image_clear): Clears an image, copies it from device memory to host accessible (CPU) memory and saves it to a file. This example covers command buffer and image creation, image layout transitions with image barriers, queue family ownership transfer and queue submission.
+- [Storage image compute shader](https://github.com/ZakStar17/ash-by-example/tree/main/storage_image_compute_shader): Generates the Mandelbrot Set offline by using a compute shader on a storage image. This example convers compute pipeline creation, pipeline caches, descriptor sets and compute shaders. This example also demonstrates the use of specialization constants in order to pass down constant values during pipeline creation.
 
 This list is mostly ordered in terms of difficulty.
 
