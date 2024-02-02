@@ -2,7 +2,7 @@ use std::ptr;
 
 use ash::vk;
 
-use crate::{device::PhysicalDevice, IMAGE_FORMAT, IMAGE_HEIGHT, IMAGE_TYPE, IMAGE_WIDTH};
+use crate::{device::PhysicalDevice, IMAGE_FORMAT, IMAGE_HEIGHT, IMAGE_SAVE_TYPE, IMAGE_WIDTH};
 
 pub struct Image {
   vk_img: vk::Image,
@@ -107,9 +107,13 @@ impl Image {
       image_bytes,
       IMAGE_WIDTH,
       IMAGE_HEIGHT,
-      IMAGE_TYPE,
+      IMAGE_SAVE_TYPE,
     )
     .expect("Failed to save image");
+
+    unsafe {
+      device.unmap_memory(self.memory);
+    }
   }
 
   pub unsafe fn destroy_self(&mut self, device: &ash::Device) {
@@ -163,7 +167,7 @@ fn allocate_image_memory(
 ) -> (vk::DeviceMemory, u32, u64) {
   let memory_requirements = unsafe { device.get_image_memory_requirements(image) };
 
-  // in this case you can sub allocate multiple times for the image and individually manage each 
+  // in this case you can sub allocate multiple times for the image and individually manage each
   // allocation
   if memory_requirements.size >= physical_device.get_max_memory_allocation_size() {
     panic!("Memory required to allocate an image ({}mb) is higher than the maximum allowed on the device ({}mb)", 
