@@ -20,7 +20,7 @@ You can run this example with:
 - A pipeline cache is created. In order for the driver to not recompile the `.spv` shader, the pipeline cache data is saved and loaded across program invocations.
 - The compute shader is loaded and populated with constant values from specialization constants. This shader is used in the compute pipeline creation.
 - The compute command buffer binds the storage image descriptor set and dispatches the compute shader. Image barriers and layouts are changed in order to have compatible layouts with the shader and guarantee that the compute operation is completed before transfer.
-- All other operations are equal to the previous example. The work is then submitted, the image is copied and saved.
+- All other operations are equal to the previous example. The work is submitted, the image is copied and saved.
 
 The program uses dynamic local groups in the shader, meaning that it can change the size of work groups by passing the value as a specialization constant. However, this requires enabling the `maintenance4` feature.
 

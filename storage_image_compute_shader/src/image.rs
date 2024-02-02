@@ -2,7 +2,7 @@ use std::ptr;
 
 use ash::vk;
 
-use crate::{device::PhysicalDevice, IMAGE_FORMAT, IMAGE_HEIGHT, IMAGE_TYPE, IMAGE_WIDTH};
+use crate::{device::PhysicalDevice, IMAGE_FORMAT, IMAGE_HEIGHT, IMAGE_SAVE_TYPE, IMAGE_WIDTH};
 
 pub struct Image {
   vk_img: vk::Image,
@@ -133,8 +133,18 @@ impl Image {
 
     // read bytes and save to file
     log::debug!("Saving image");
-    image::save_buffer(path, image_bytes, IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_TYPE)
-      .expect("Failed to save image");
+    image::save_buffer(
+      path,
+      image_bytes,
+      IMAGE_WIDTH,
+      IMAGE_HEIGHT,
+      IMAGE_SAVE_TYPE,
+    )
+    .expect("Failed to save image");
+
+    unsafe {
+      device.unmap_memory(self.memory);
+    }
   }
 
   pub unsafe fn destroy_self(&mut self, device: &ash::Device) {
