@@ -151,7 +151,7 @@ fn main() {
     &device,
     &physical_device,
     vk::ImageTiling::LINEAR,
-    vk::ImageUsageFlags::TRANSFER_SRC.bitor(vk::ImageUsageFlags::TRANSFER_DST),
+    vk::ImageUsageFlags::TRANSFER_DST,
     vk::MemoryPropertyFlags::HOST_VISIBLE,
     vk::MemoryPropertyFlags::HOST_CACHED,
   );
