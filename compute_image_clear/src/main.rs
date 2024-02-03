@@ -90,6 +90,7 @@ fn main() {
 
   let (device, queues) = device::create_logical_device(&instance, &physical_device);
 
+  println!("Allocating images...");
   // GPU image with DEVICE_LOCAL flags
   let mut local_image = Image::new(
     &device,
