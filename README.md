@@ -20,7 +20,7 @@ This list is mostly ordered in terms of difficulty.
 
 ## Running
 
-Running the examples requires the Rust toolchain as well as the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
+Running the examples requires the Rust Toolchain as well as the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
 
 To run a example with all validations enabled, navigate to the respective folder and run `RUST_LOG=debug cargo run <name_of_the_example>`. More information can be found in the respective README.
 

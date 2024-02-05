@@ -46,7 +46,7 @@ pub const ADDITIONAL_VALIDATION_FEATURES: [vk::ValidationFeatureEnableEXT; 2] = 
 
 pub const TARGET_API_VERSION: u32 = vk::API_VERSION_1_3;
 
-pub const APPLICATION_NAME: &'static CStr = cstr!("Image clear");
+pub const APPLICATION_NAME: &'static CStr = cstr!("Triangle image");
 pub const APPLICATION_VERSION: u32 = vk::make_api_version(0, 1, 0, 0);
 
 pub const REQUIRED_DEVICE_EXTENSIONS: [&'static CStr; 0] = [];
@@ -58,7 +58,7 @@ pub const IMAGE_HEIGHT: u32 = 1080;
 pub const IMAGE_FORMAT: vk::Format = vk::Format::R8G8B8A8_SRGB;
 pub const IMAGE_SAVE_TYPE: ::image::ColorType = ::image::ColorType::Rgba8; // should be equivalent
                                                                            // valid color values depend on IMAGE_FORMAT
-const IMAGE_SAVE_PATH: &str = "image.png";
+const IMAGE_SAVE_PATH: &str = "triangle.png";
 
 pub const BACKGROUND_COLOR: vk::ClearColorValue = vk::ClearColorValue {
   float32: [0.01, 0.01, 0.01, 1.0],

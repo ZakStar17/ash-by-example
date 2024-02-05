@@ -36,8 +36,7 @@ impl QueueFamilies {
             queue_count: family.queue_count,
           });
         }
-      }
-      if family.queue_flags.contains(vk::QueueFlags::COMPUTE) {
+      } else if family.queue_flags.contains(vk::QueueFlags::COMPUTE) {
         if compute.is_none() {
           compute = Some(QueueFamily {
             index: i as u32,
