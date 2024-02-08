@@ -4,7 +4,7 @@ This example instructs the GPU to clear a local image to a specific color in dev
 
 You can run this example with:
 
-`RUST_LOG=debug cargo run --bin compute_image_clear`
+`RUST_LOG=debug cargo run`
 
 ## Code overview
 

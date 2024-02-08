@@ -15,6 +15,7 @@ Feel free to suggest new examples or improvements for old ones.
 - [Compute image clear](https://github.com/ZakStar17/ash-by-example/tree/main/compute_image_clear): Clears an image, copies it from device memory to host accessible (CPU) memory and saves it to a file. This example covers command buffer and image creation, image layout transitions with image barriers, queue family ownership transfer and queue submission.
 - [Storage image compute shader](https://github.com/ZakStar17/ash-by-example/tree/main/storage_image_compute_shader): Generates the Mandelbrot Set offline by using a compute shader on a storage image and saves it to a file. This example covers compute pipeline creation, pipeline caches, descriptor sets and compute shaders. It also demonstrates the use of specialization constants in order to assign constant values in the shader during pipeline creation.
 - [Triangle image](https://github.com/ZakStar17/ash-by-example/tree/main/triangle_image): Draws a triangle and saves it to a file. Covers executing a simple graphics pipeline with a render pass, vertex and index buffers.
+- [Bouncing texture](https://github.com/ZakStar17/ash-by-example/tree/main/bouncy_ferris): Have Ferris the crab bouncing around the screen. In order words, renders a texture multiple times per second to a window with different positions. Covers creating a combined image sampler to be rendered and presenting to a window surface with the help of a swapchain.
 
 This list is mostly ordered in terms of difficulty.
 

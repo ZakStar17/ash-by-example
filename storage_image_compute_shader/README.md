@@ -10,7 +10,7 @@ Even though the program is not iterative, some constants can be changed to gener
 
 You can run this example with:
 
-`RUST_LOG=debug cargo run --bin storage_image_compute_shader`
+`RUST_LOG=debug cargo run`
 
 ## Code overview
 

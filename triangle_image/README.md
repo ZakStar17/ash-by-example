@@ -6,7 +6,7 @@ It uses [Image clear example](https://github.com/ZakStar17/ash-by-example/tree/m
 
 You can run this example with:
 
-`RUST_LOG=debug cargo run --bin triangle-image`
+`RUST_LOG=debug cargo run`
 
 ## Shaders
 
