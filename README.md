@@ -1,10 +1,10 @@
 # Vulkan examples built with Ash
 
-This is a collection of some examples for [Vulkan®](https://www.khronos.org/vulkan/) that uses [Ash](https://github.com/ash-rs/ash) as its wrapper.
+This is a collection of [Vulkan®](https://www.khronos.org/vulkan/) examples with [Ash](https://github.com/ash-rs/ash) as its wrapper API.
 
 Each example is separated in a different folder and uses only the necessary crates to function. This has some drawbacks, but makes the functionality more apparent. All the examples follow a general module structure so you can just look at the functionality that you need.
 
-Each folder has its own `README.md` which explains the general code flow, Vulkan functionality used and some differences / similarities to other examples.
+Each example resides separately in a different folder and has its own `README.md` that explains the general code flow, used Vulkan functionality and some differences/similarities to other examples.
 
 Feel free to suggest new examples or improvements for old ones.
 
@@ -21,11 +21,11 @@ This list is mostly ordered in terms of difficulty.
 
 ## Running
 
-Running the examples requires the Rust Toolchain as well as the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
+Running the examples requires the nightly Rust Toolchain as well as the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
 
 To run a example with all validations enabled, navigate to the respective folder and run `RUST_LOG=debug cargo run <name_of_the_example>`. More information can be found in the respective README.
 
-The examples use cargo features that enable specific functionality. These include `vl` to enable validation layers and `link` to link the Vulkan loader at compile time instead of loading it at runtime. In any case, using the default features should be enough.
+The examples use cargo features that enable specific functionality. These include `vl` to enable validation layers and `link` to link the Vulkan loader at compile time instead of loading it at runtime. Using default crate features is enough to have it working.
 
 ## Checking the logs
 
