@@ -82,7 +82,7 @@ void main() {
 }
 ```
 
-For it to be used as a combined sampler, a separate `vk::Sampler` object is created. This basically works as a "function" that takes texture coordinates as input and returns the fragment color. It has multiple configuration parameters that are can instruct it to take the nearest pixel to the given coordinates or average them out.
+While writing to the respective descriptor set, a separate `vk::Sampler` is also passed. It has multiple parameters for describing how texture coordinates get translated into color values.
 
 The texture position is received as vertex data.
 
