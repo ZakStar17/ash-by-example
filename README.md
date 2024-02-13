@@ -2,8 +2,6 @@
 
 This is a collection of [Vulkan®](https://www.khronos.org/vulkan/) examples with [Ash](https://github.com/ash-rs/ash) as its wrapper API.
 
-Each example is separated in a different folder and uses only the necessary crates to function. This has some drawbacks, but makes the functionality more apparent. All the examples follow a general module structure so you can just look at the functionality that you need.
-
 Each example resides separately in a different folder and has its own `README.md` that explains the general code flow, used Vulkan functionality and some differences/similarities to other examples.
 
 Feel free to suggest new examples or improvements for old ones.
@@ -15,7 +13,7 @@ Feel free to suggest new examples or improvements for old ones.
 - [Compute image clear](https://github.com/ZakStar17/ash-by-example/tree/main/compute_image_clear): Clears an image, copies it from device memory to host accessible (CPU) memory and saves it to a file. This example covers command buffer and image creation, image layout transitions with image barriers, queue family ownership transfer and queue submission.
 - [Storage image compute shader](https://github.com/ZakStar17/ash-by-example/tree/main/storage_image_compute_shader): Generates the Mandelbrot Set offline by using a compute shader on a storage image and saves it to a file. This example covers compute pipeline creation, pipeline caches, descriptor sets and compute shaders. It also demonstrates the use of specialization constants in order to assign constant values in the shader during pipeline creation.
 - [Triangle image](https://github.com/ZakStar17/ash-by-example/tree/main/triangle_image): Draws a triangle and saves it to a file. Covers executing a simple graphics pipeline with a render pass, vertex and index buffers.
-- [Bouncing texture](https://github.com/ZakStar17/ash-by-example/tree/main/bouncy_ferris): Have Ferris the crab bouncing around the screen. In order words, renders a texture multiple times per second to a window with different positions. Covers creating a combined image sampler to be rendered and presenting to a window surface with the help of a swapchain.
+- [Bouncing texture](https://github.com/ZakStar17/ash-by-example/tree/main/bouncy_ferris): Have Ferris the crab bouncing around the screen. Applies a texture to an image and draws it rapidly with different positions. Introduces rendering to windows with a swapchain as well as sampling images.
 
 This list is mostly ordered in terms of difficulty.
 
